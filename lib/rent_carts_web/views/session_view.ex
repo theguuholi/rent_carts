@@ -9,7 +9,7 @@ defmodule RentCartsWeb.SessionView do
   def render("session.json", %{session: session}) do
     %{
       user: UserView.render("show.json", user: session.user),
-      token: "123123"
+      token: session.token
     }
   end
 end

@@ -13,6 +13,12 @@ defmodule RentCartsWeb.FallbackController do
     |> json(%{error: message})
   end
 
+  def call(conn, {:error, :invalid}) do
+    conn
+    |> put_status(:unprocessable_entity)
+    |> json(%{error: "Invalid Token"})
+  end
+
   def call(conn, {:error, %Ecto.Changeset{} = changeset}) do
     conn
     |> put_status(:unprocessable_entity)
