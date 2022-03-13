@@ -1,5 +1,6 @@
 defmodule RentCartsWeb.Router do
   use RentCartsWeb, :router
+  alias RentCartsWeb.Middlewares.EnsureAuthenticated
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -8,6 +9,10 @@ defmodule RentCartsWeb.Router do
     plug :put_root_layout, {RentCartsWeb.LayoutView, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+  end
+
+  pipeline :auth do
+    plug(EnsureAuthenticated)
   end
 
   pipeline :api do
@@ -22,11 +27,15 @@ defmodule RentCartsWeb.Router do
 
   # Other scopes may use custom stacks.
   scope "/api", RentCartsWeb do
+    pipe_through [:api, :auth]
+    post "/sessions/me", SessionController, :me
+  end
+
+  scope "/api", RentCartsWeb do
     pipe_through :api
     resources "/categories", CategoryController, except: [:new, :edit]
     resources "/users", UserController, except: [:new, :edit]
     post "/sessions", SessionController, :create
-    post "/sessions/me", SessionController, :me
     resources "/specifications", SpecificationController, except: [:new, :edit]
   end
 

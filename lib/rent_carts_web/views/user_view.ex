@@ -15,6 +15,7 @@ defmodule RentCartsWeb.UserView do
       name: user.name,
       user_name: user.user_name,
       email: user.email,
+      role: user.role,
       drive_license: user.drive_license
     }
   end

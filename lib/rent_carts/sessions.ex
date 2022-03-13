@@ -1,12 +1,10 @@
 defmodule RentCarts.Sessions do
   import Ecto.Query, warn: false
-  alias Phoenix.Token
   alias RentCarts.Accounts.User
   alias RentCarts.Repo
-  alias RentCartsWeb.Endpoint
+  alias RentCarts.Shared.Tokenr
 
   @error_return {:error, :message, "Email or password is incorrect!"}
-  @login_token "login_user_token"
 
   def create(email, password) do
     User
@@ -22,14 +20,12 @@ defmodule RentCarts.Sessions do
 
   defp validate_password(user, password) do
     if Argon2.verify_pass(password, user.password_hash) do
-      token = Token.sign(Endpoint, @login_token, user)
+      token = Tokenr.generate_auth_token(user)
       {:ok, user, token}
     else
       @error_return
     end
   end
 
-  def me(token) do
-    Token.verify(Endpoint, @login_token, token, max_age: 86_400)
-  end
+  def me(token), do: Tokenr.verify_auth_token(token)
 end
