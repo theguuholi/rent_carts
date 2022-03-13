@@ -7,6 +7,12 @@ defmodule RentCartsWeb.FallbackController do
   use RentCartsWeb, :controller
 
   # This clause handles errors returned by Ecto's insert/update/delete.
+  def call(conn, {:error, :message, message}) do
+    conn
+    |> put_status(:unprocessable_entity)
+    |> json(%{error: message})
+  end
+
   def call(conn, {:error, %Ecto.Changeset{} = changeset}) do
     conn
     |> put_status(:unprocessable_entity)

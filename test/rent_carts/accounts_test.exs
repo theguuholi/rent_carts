@@ -8,7 +8,13 @@ defmodule RentCarts.AccountsTest do
 
     import RentCarts.AccountsFixtures
 
-    @invalid_attrs %{drive_license: nil, email: nil, name: nil, password_hash: nil, user_name: nil}
+    @invalid_attrs %{
+      drive_license: nil,
+      email: nil,
+      name: nil,
+      password_hash: nil,
+      user_name: nil
+    }
 
     test "list_users/0 returns all users" do
       user = user_fixture()
@@ -21,7 +27,13 @@ defmodule RentCarts.AccountsTest do
     end
 
     test "create_user/1 with valid data creates a user" do
-      valid_attrs = %{drive_license: "some drive_license", email: "some email", name: "some name", password_hash: "some password_hash", user_name: "some user_name"}
+      valid_attrs = %{
+        drive_license: "some drive_license",
+        email: "some email",
+        name: "some name",
+        password_hash: "some password_hash",
+        user_name: "some user_name"
+      }
 
       assert {:ok, %User{} = user} = Accounts.create_user(valid_attrs)
       assert user.drive_license == "some drive_license"
@@ -37,7 +49,14 @@ defmodule RentCarts.AccountsTest do
 
     test "update_user/2 with valid data updates the user" do
       user = user_fixture()
-      update_attrs = %{drive_license: "some updated drive_license", email: "some updated email", name: "some updated name", password_hash: "some updated password_hash", user_name: "some updated user_name"}
+
+      update_attrs = %{
+        drive_license: "some updated drive_license",
+        email: "some updated email",
+        name: "some updated name",
+        password_hash: "some updated password_hash",
+        user_name: "some updated user_name"
+      }
 
       assert {:ok, %User{} = user} = Accounts.update_user(user, update_attrs)
       assert user.drive_license == "some updated drive_license"

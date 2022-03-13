@@ -24,6 +24,8 @@ defmodule RentCartsWeb.Router do
   scope "/api", RentCartsWeb do
     pipe_through :api
     resources "/categories", CategoryController, except: [:new, :edit]
+    resources "/users", UserController, except: [:new, :edit]
+    post "/sessions", SessionController, :create
     resources "/specifications", SpecificationController, except: [:new, :edit]
   end
 
