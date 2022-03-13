@@ -8,7 +8,8 @@
 import Config
 
 config :rent_carts,
-  ecto_repos: [RentCarts.Repo]
+  ecto_repos: [RentCarts.Repo],
+  generators: [binary_id: true]
 
 # Configures the endpoint
 config :rent_carts, RentCartsWeb.Endpoint,

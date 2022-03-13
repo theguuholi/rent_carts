@@ -21,9 +21,11 @@ defmodule RentCartsWeb.Router do
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", RentCartsWeb do
-  #   pipe_through :api
-  # end
+  scope "/api", RentCartsWeb do
+    pipe_through :api
+    resources "/categories", CategoryController, except: [:new, :edit]
+    resources "/specifications", SpecificationController, except: [:new, :edit]
+  end
 
   # Enables LiveDashboard only for development
   #
