@@ -20,7 +20,7 @@ defmodule RentCartsWeb.SpecificationControllerTest do
   end
 
   describe "index" do
-    setup :include_bearer_admin_token
+        setup :include_bearer_admin_token
 
     test "lists all specifications", %{conn: conn} do
       conn = get(conn, Routes.specification_path(conn, :index))
@@ -30,7 +30,6 @@ defmodule RentCartsWeb.SpecificationControllerTest do
 
   describe "create specification" do
     setup :include_bearer_admin_token
-
     test "renders specification when data is valid", %{conn: conn} do
       conn = post(conn, Routes.specification_path(conn, :create), specification: @create_attrs)
       assert %{"id" => id} = json_response(conn, 201)["data"]
