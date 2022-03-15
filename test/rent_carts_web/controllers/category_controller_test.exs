@@ -20,6 +20,8 @@ defmodule RentCartsWeb.CategoryControllerTest do
   end
 
   describe "index" do
+    setup :include_bearer_admin_token
+
     test "lists all categories", %{conn: conn} do
       conn = get(conn, Routes.category_path(conn, :index))
       assert json_response(conn, 200)["data"] == []
@@ -27,6 +29,8 @@ defmodule RentCartsWeb.CategoryControllerTest do
   end
 
   describe "create category" do
+    setup :include_bearer_admin_token
+
     test "renders category when data is valid", %{conn: conn} do
       conn = post(conn, Routes.category_path(conn, :create), category: @create_attrs)
       assert %{"id" => id} = json_response(conn, 201)["data"]
@@ -36,7 +40,7 @@ defmodule RentCartsWeb.CategoryControllerTest do
       assert %{
                "id" => ^id,
                "description" => "some description",
-               "name" => "some name"
+               "name" => "SOME NAME"
              } = json_response(conn, 200)["data"]
     end
 
@@ -47,7 +51,7 @@ defmodule RentCartsWeb.CategoryControllerTest do
   end
 
   describe "update category" do
-    setup [:create_category]
+    setup [:create_category, :include_bearer_admin_token]
 
     test "renders category when data is valid", %{
       conn: conn,
@@ -61,7 +65,7 @@ defmodule RentCartsWeb.CategoryControllerTest do
       assert %{
                "id" => ^id,
                "description" => "some updated description",
-               "name" => "some updated name"
+               "name" => "SOME UPDATED NAME"
              } = json_response(conn, 200)["data"]
     end
 
@@ -72,7 +76,7 @@ defmodule RentCartsWeb.CategoryControllerTest do
   end
 
   describe "delete category" do
-    setup [:create_category]
+    setup [:create_category, :include_bearer_admin_token]
 
     test "deletes chosen category", %{conn: conn, category: category} do
       conn = delete(conn, Routes.category_path(conn, :delete, category))

@@ -16,7 +16,7 @@ defmodule RentCarts.Categories.Category do
     category
     |> cast(attrs, [:name, :description])
     |> unique_constraint(:name)
-    |> update_change(:name, &String.upcase/1)
     |> validate_required([:name, :description])
+    |> update_change(:name, &String.upcase/1)
   end
 end

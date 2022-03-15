@@ -1,5 +1,6 @@
 defmodule RentCartsWeb.Router do
   use RentCartsWeb, :router
+  alias RentCartsWeb.Middlewares.EnsureAuthenticated
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -8,6 +9,10 @@ defmodule RentCartsWeb.Router do
     plug :put_root_layout, {RentCartsWeb.LayoutView, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+  end
+
+  pipeline :auth do
+    plug(EnsureAuthenticated)
   end
 
   pipeline :api do
@@ -20,13 +25,21 @@ defmodule RentCartsWeb.Router do
     get "/", PageController, :index
   end
 
-  # Other scopes may use custom stacks.
   scope "/api", RentCartsWeb do
-    pipe_through :api
+    pipe_through [:api, :auth]
+    post "/sessions/me", SessionController, :me
     resources "/categories", CategoryController, except: [:new, :edit]
     resources "/specifications", SpecificationController, except: [:new, :edit]
+    resources "/users", UserController, except: [:new, :edit, :create]
   end
 
+  scope "/api", RentCartsWeb do
+    pipe_through :api
+    post "/users", UserController, :create
+    post "/sessions", SessionController, :create
+  end
+
+  # coveralls-ignore-start
   # Enables LiveDashboard only for development
   #
   # If you want to use the LiveDashboard in production, you should put
@@ -43,6 +56,8 @@ defmodule RentCartsWeb.Router do
       live_dashboard "/dashboard", metrics: RentCartsWeb.Telemetry
     end
   end
+
+  # coveralls-ignore-stop
 
   # Enables the Swoosh mailbox preview in development.
   #

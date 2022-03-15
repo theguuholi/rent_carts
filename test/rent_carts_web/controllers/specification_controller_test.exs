@@ -13,13 +13,15 @@ defmodule RentCartsWeb.SpecificationControllerTest do
     description: "some updated description",
     name: "some updated name"
   }
-  @invalid_attrs %{description: nil, name: nil}
+  @invalid_attrs %{description: nil, name: ""}
 
   setup %{conn: conn} do
     {:ok, conn: put_req_header(conn, "accept", "application/json")}
   end
 
   describe "index" do
+    setup :include_bearer_admin_token
+
     test "lists all specifications", %{conn: conn} do
       conn = get(conn, Routes.specification_path(conn, :index))
       assert json_response(conn, 200)["data"] == []
@@ -27,6 +29,8 @@ defmodule RentCartsWeb.SpecificationControllerTest do
   end
 
   describe "create specification" do
+    setup :include_bearer_admin_token
+
     test "renders specification when data is valid", %{conn: conn} do
       conn = post(conn, Routes.specification_path(conn, :create), specification: @create_attrs)
       assert %{"id" => id} = json_response(conn, 201)["data"]
@@ -36,7 +40,7 @@ defmodule RentCartsWeb.SpecificationControllerTest do
       assert %{
                "id" => ^id,
                "description" => "some description",
-               "name" => "some name"
+               "name" => "SOME NAME"
              } = json_response(conn, 200)["data"]
     end
 
@@ -47,7 +51,7 @@ defmodule RentCartsWeb.SpecificationControllerTest do
   end
 
   describe "update specification" do
-    setup [:create_specification]
+    setup [:create_specification, :include_bearer_admin_token]
 
     test "renders specification when data is valid", %{
       conn: conn,
@@ -65,7 +69,7 @@ defmodule RentCartsWeb.SpecificationControllerTest do
       assert %{
                "id" => ^id,
                "description" => "some updated description",
-               "name" => "some updated name"
+               "name" => "SOME UPDATED NAME"
              } = json_response(conn, 200)["data"]
     end
 
@@ -80,7 +84,7 @@ defmodule RentCartsWeb.SpecificationControllerTest do
   end
 
   describe "delete specification" do
-    setup [:create_specification]
+    setup [:create_specification, :include_bearer_admin_token]
 
     test "deletes chosen specification", %{conn: conn, specification: specification} do
       conn = delete(conn, Routes.specification_path(conn, :delete, specification))

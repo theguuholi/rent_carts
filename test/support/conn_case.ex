@@ -16,6 +16,9 @@ defmodule RentCartsWeb.ConnCase do
   """
 
   use ExUnit.CaseTemplate
+  alias Ecto.Adapters.SQL.Sandbox
+  alias RentCarts.AccountsFixtures
+  alias RentCarts.Sessions
 
   using do
     quote do
@@ -32,8 +35,16 @@ defmodule RentCartsWeb.ConnCase do
   end
 
   setup tags do
-    pid = Ecto.Adapters.SQL.Sandbox.start_owner!(RentCarts.Repo, shared: not tags[:async])
-    on_exit(fn -> Ecto.Adapters.SQL.Sandbox.stop_owner(pid) end)
+    pid = Sandbox.start_owner!(RentCarts.Repo, shared: not tags[:async])
+    on_exit(fn -> Sandbox.stop_owner(pid) end)
     {:ok, conn: Phoenix.ConnTest.build_conn()}
+  end
+
+  def include_bearer_admin_token(%{conn: conn}) do
+    user = AccountsFixtures.user_fixture()
+    {:ok, _, token} = Sessions.create(user.email, user.password)
+
+    conn = Plug.Conn.put_req_header(conn, "authorization", "Bearer " <> token)
+    {:ok, conn: conn, user: user, token: token}
   end
 end
