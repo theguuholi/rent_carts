@@ -39,6 +39,7 @@ defmodule RentCartsWeb.Router do
     post "/sessions", SessionController, :create
   end
 
+  # coveralls-ignore-start
   # Enables LiveDashboard only for development
   #
   # If you want to use the LiveDashboard in production, you should put
@@ -55,6 +56,8 @@ defmodule RentCartsWeb.Router do
       live_dashboard "/dashboard", metrics: RentCartsWeb.Telemetry
     end
   end
+
+  # coveralls-ignore-stop
 
   # Enables the Swoosh mailbox preview in development.
   #
