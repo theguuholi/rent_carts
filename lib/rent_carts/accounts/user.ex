@@ -22,8 +22,6 @@ defmodule RentCarts.Accounts.User do
   def update_changeset(user, attrs) do
     user
     |> cast(attrs, @required_fields ++ @fields)
-    |> update_change(:email, &String.downcase/1)
-    |> update_change(:user_name, &String.upcase/1)
     |> validate_format(:email, ~r/@/, message: "has invalid format please type a valid e-mail")
     |> validate_length(:password,
       min: 6,
@@ -31,7 +29,10 @@ defmodule RentCarts.Accounts.User do
       message: "password should have between 6 to 100 chars"
     )
     |> hash_password()
+    |> validate_required(@required_fields)
     |> validate_confirmation(:password)
+    |> update_change(:email, &String.downcase/1)
+    |> update_change(:user_name, &String.upcase/1)
     |> unique_constraint(:drive_license)
     |> unique_constraint(:email)
     |> unique_constraint(:user_name)

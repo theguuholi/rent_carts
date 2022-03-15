@@ -15,8 +15,8 @@ defmodule RentCarts.Specifications.Specification do
   def changeset(specification, attrs) do
     specification
     |> cast(attrs, [:name, :description])
-    |> update_change(:name, &String.upcase/1)
     |> validate_required([:name, :description])
+    |> update_change(:name, &String.upcase/1)
     |> unique_constraint(:name)
   end
 end

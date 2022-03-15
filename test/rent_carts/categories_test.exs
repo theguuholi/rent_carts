@@ -25,7 +25,7 @@ defmodule RentCarts.CategoriesTest do
 
       assert {:ok, %Category{} = category} = Categories.create_category(valid_attrs)
       assert category.description == "some description"
-      assert category.name == "some name"
+      assert category.name == "SOME NAME"
     end
 
     test "create_category/1 with invalid data returns error changeset" do
@@ -38,7 +38,7 @@ defmodule RentCarts.CategoriesTest do
 
       assert {:ok, %Category{} = category} = Categories.update_category(category, update_attrs)
       assert category.description == "some updated description"
-      assert category.name == "some updated name"
+      assert category.name == "SOME UPDATED NAME"
     end
 
     test "update_category/2 with invalid data returns error changeset" do

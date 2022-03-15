@@ -27,7 +27,7 @@ defmodule RentCarts.SpecificationsTest do
                Specifications.create_specification(valid_attrs)
 
       assert specification.description == "some description"
-      assert specification.name == "some name"
+      assert specification.name == "SOME NAME"
     end
 
     test "create_specification/1 with invalid data returns error changeset" do
@@ -42,7 +42,7 @@ defmodule RentCarts.SpecificationsTest do
                Specifications.update_specification(specification, update_attrs)
 
       assert specification.description == "some updated description"
-      assert specification.name == "some updated name"
+      assert specification.name == "SOME UPDATED NAME"
     end
 
     test "update_specification/2 with invalid data returns error changeset" do

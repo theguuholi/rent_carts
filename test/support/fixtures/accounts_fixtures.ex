@@ -12,7 +12,7 @@ defmodule RentCarts.AccountsFixtures do
   @doc """
   Generate a unique user email.
   """
-  def unique_user_email, do: "some email#{System.unique_integer([:positive])}"
+  def unique_user_email, do: "some@email#{System.unique_integer([:positive])}"
 
   @doc """
   Generate a unique user user_name.
@@ -29,7 +29,8 @@ defmodule RentCarts.AccountsFixtures do
         drive_license: unique_user_drive_license(),
         email: unique_user_email(),
         name: "some name",
-        password_hash: "some password_hash",
+        password: "some password_hash",
+        password_confirmation: "some password_hash",
         user_name: unique_user_user_name()
       })
       |> RentCarts.Accounts.create_user()

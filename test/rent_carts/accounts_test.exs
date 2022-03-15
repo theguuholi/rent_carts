@@ -17,30 +17,30 @@ defmodule RentCarts.AccountsTest do
     }
 
     test "list_users/0 returns all users" do
-      user = user_fixture()
-      assert Accounts.list_users() == [user]
+      user_fixture()
+      assert Accounts.list_users() |> Enum.count() == 1
     end
 
     test "get_user!/1 returns the user with given id" do
       user = user_fixture()
-      assert Accounts.get_user!(user.id) == user
+      assert Accounts.get_user!(user.id).email == user.email
     end
 
     test "create_user/1 with valid data creates a user" do
       valid_attrs = %{
         drive_license: "some drive_license",
-        email: "some email",
+        email: "some@email",
         name: "some name",
-        password_hash: "some password_hash",
+        password: "some password_hash",
+        password_confirmation: "some password_hash",
         user_name: "some user_name"
       }
 
       assert {:ok, %User{} = user} = Accounts.create_user(valid_attrs)
       assert user.drive_license == "some drive_license"
-      assert user.email == "some email"
+      assert user.email == "some@email"
       assert user.name == "some name"
-      assert user.password_hash == "some password_hash"
-      assert user.user_name == "some user_name"
+      assert user.user_name == "SOME USER_NAME"
     end
 
     test "create_user/1 with invalid data returns error changeset" do
@@ -52,7 +52,7 @@ defmodule RentCarts.AccountsTest do
 
       update_attrs = %{
         drive_license: "some updated drive_license",
-        email: "some updated email",
+        email: "some@updatedemail",
         name: "some updated name",
         password_hash: "some updated password_hash",
         user_name: "some updated user_name"
@@ -60,16 +60,15 @@ defmodule RentCarts.AccountsTest do
 
       assert {:ok, %User{} = user} = Accounts.update_user(user, update_attrs)
       assert user.drive_license == "some updated drive_license"
-      assert user.email == "some updated email"
+      assert user.email == "some@updatedemail"
       assert user.name == "some updated name"
-      assert user.password_hash == "some updated password_hash"
-      assert user.user_name == "some updated user_name"
+      assert user.user_name == "SOME UPDATED USER_NAME"
     end
 
     test "update_user/2 with invalid data returns error changeset" do
       user = user_fixture()
       assert {:error, %Ecto.Changeset{}} = Accounts.update_user(user, @invalid_attrs)
-      assert user == Accounts.get_user!(user.id)
+      assert user.email == Accounts.get_user!(user.id).email
     end
 
     test "delete_user/1 deletes the user" do
