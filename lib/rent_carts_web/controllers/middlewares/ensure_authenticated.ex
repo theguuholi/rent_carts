@@ -6,8 +6,8 @@ defmodule RentCartsWeb.Middlewares.EnsureAuthenticated do
 
   def call(conn, _opts) do
     with ["Bearer " <> token] <- get_req_header(conn, "authorization"),
-         {:ok, _user} <- Tokenr.verify_auth_token(token) do
-      conn
+         {:ok, user} <- Tokenr.verify_auth_token(token) do
+      put_req_header(conn, "user_id", user.id)
     else
       _ ->
         conn

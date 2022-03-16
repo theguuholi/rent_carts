@@ -8,6 +8,13 @@ defmodule RentCarts.Accounts do
 
   alias RentCarts.Accounts.User
 
+  def update_photo([user_id | _], photo) do
+    user_id
+    |> get_user!()
+    |> User.update_photo(%{photo_url: photo})
+    |> Repo.update()
+  end
+
   @doc """
   Returns the list of users.
 

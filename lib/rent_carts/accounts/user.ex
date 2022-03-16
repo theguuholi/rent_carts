@@ -1,6 +1,8 @@
 defmodule RentCarts.Accounts.User do
   use Ecto.Schema
   import Ecto.Changeset
+  import Waffle.Ecto.Schema
+  alias __MODULE__.UserPhoto
 
   @fields ~w/role/a
   @required_fields ~w/name user_name password password_confirmation email drive_license/a
@@ -11,6 +13,7 @@ defmodule RentCarts.Accounts.User do
     field :drive_license, :string
     field :email, :string
     field :name, :string
+    field :photo_url, UserPhoto.Type
     field :password, :string, virtual: true
     field :password_confirmation, :string, virtual: true
     field :password_hash, :string
@@ -19,30 +22,23 @@ defmodule RentCarts.Accounts.User do
     timestamps()
   end
 
+  def update_photo(user, attrs) do
+    cast_attachments(user, attrs, [:photo_url])
+  end
+
   def update_changeset(user, attrs) do
     user
-    |> cast(attrs, @required_fields ++ @fields)
-    |> validate_format(:email, ~r/@/, message: "has invalid format please type a valid e-mail")
-    |> validate_length(:password,
-      min: 6,
-      max: 100,
-      message: "password should have between 6 to 100 chars"
-    )
-    |> hash_password()
-    |> validate_required(@required_fields)
-    |> validate_confirmation(:password)
-    |> update_change(:email, &String.downcase/1)
-    |> update_change(:user_name, &String.upcase/1)
-    |> unique_constraint(:drive_license)
-    |> unique_constraint(:email)
-    |> unique_constraint(:user_name)
+    |> default_changesets(attrs)
   end
 
   def changeset(user, attrs) do
+    default_changesets(user, attrs)
+  end
+
+  def default_changesets(user, attrs) do
     user
     |> cast(attrs, @required_fields ++ @fields)
-    |> update_change(:email, &String.downcase/1)
-    |> update_change(:user_name, &String.upcase/1)
+    |> validate_required(@required_fields)
     |> validate_format(:email, ~r/@/, message: "has invalid format please type a valid e-mail")
     |> validate_length(:password,
       min: 6,
@@ -50,8 +46,9 @@ defmodule RentCarts.Accounts.User do
       message: "password should have between 6 to 100 chars"
     )
     |> hash_password()
+    |> update_change(:email, &String.downcase/1)
+    |> update_change(:user_name, &String.upcase/1)
     |> validate_confirmation(:password)
-    |> validate_required(@required_fields)
     |> unique_constraint(:drive_license)
     |> unique_constraint(:email)
     |> unique_constraint(:user_name)

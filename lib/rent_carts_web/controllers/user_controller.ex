@@ -11,6 +11,17 @@ defmodule RentCartsWeb.UserController do
     render(conn, "index.json", users: users)
   end
 
+  def update_foto(conn, %{"photo" => photo}) do
+    user_id = get_req_header(conn, "user_id")
+
+    with {:ok, user} <- Accounts.update_photo(user_id, photo) do
+      conn
+      |> put_status(:created)
+      |> put_resp_header("location", Routes.user_path(conn, :show, user))
+      |> render("show.json", user: user)
+    end
+  end
+
   def create(conn, %{"user" => user_params}) do
     with {:ok, %User{} = user} <- Accounts.create_user(user_params) do
       conn

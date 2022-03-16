@@ -30,6 +30,7 @@ defmodule RentCartsWeb.Router do
     post "/sessions/me", SessionController, :me
     resources "/categories", CategoryController, except: [:new, :edit]
     resources "/specifications", SpecificationController, except: [:new, :edit]
+    patch "/users/photo", UserController, :update_foto
     resources "/users", UserController, except: [:new, :edit, :create]
   end
 
