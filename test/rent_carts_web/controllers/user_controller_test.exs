@@ -64,6 +64,18 @@ defmodule RentCartsWeb.AccountControllerTest do
   describe "update user" do
     setup [:create_user, :include_bearer_admin_token]
 
+    test "renders user when data is valid update", %{conn: conn} do
+      photo = %Plug.Upload{
+        content_type: "image/png",
+        filename: "logo.png",
+        path: "test/support/fixtures/logo.png"
+      }
+
+      conn = patch(conn, Routes.user_path(conn, :update_foto), photo: photo)
+
+      assert json_response(conn, 201)["data"]["photo_url"] |> String.contains?("logo.png")
+    end
+
     test "renders user when data is valid", %{
       conn: conn,
       user: %User{id: id} = user
