@@ -1,5 +1,6 @@
 defmodule RentCartsWeb.UserView do
   use RentCartsWeb, :view
+  alias RentCarts.Accounts.User.UserPhoto
 
   def render("index.json", %{users: users}) do
     %{data: render_many(users, __MODULE__, "user.json")}
@@ -16,7 +17,8 @@ defmodule RentCartsWeb.UserView do
       user_name: user.user_name,
       email: user.email,
       role: user.role,
-      drive_license: user.drive_license
+      drive_license: user.drive_license,
+      photo_url: UserPhoto.url({user.photo_url, user})
     }
   end
 end
