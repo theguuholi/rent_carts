@@ -1,8 +1,10 @@
-defmodule RentCarts.Car do
+defmodule RentCarts.Cars.Car do
   use Ecto.Schema
   import Ecto.Changeset
+  alias RentCarts.Categories.Category
 
-  @fields ~w/name description daily_rate available license_plate fine_amount brand/a
+  @fields ~w/available/a
+  @required_fields ~w/name description daily_rate available license_plate fine_amount brand category_id/a
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
   schema "cars" do
@@ -13,7 +15,7 @@ defmodule RentCarts.Car do
     field :fine_amount, :integer
     field :license_plate, :string
     field :name, :string
-    field :category_id, :binary_id
+    belongs_to :category, Category
 
     timestamps()
   end
@@ -21,7 +23,9 @@ defmodule RentCarts.Car do
   @doc false
   def changeset(car, attrs) do
     car
-    |> cast(attrs, @fields)
-    |> validate_required(@fields)
+    |> cast(attrs, @fields ++ @required_fields)
+    |> validate_required(@required_fields)
+    |> unique_constraint(:license_plate)
+    |> update_change(:license_plate, &String.upcase/1)
   end
 end

@@ -18,6 +18,7 @@ defmodule RentCarts.Repo.Migrations.CreateCars do
       timestamps()
     end
 
+    create unique_index(:cars, [:license_plate])
     create index(:cars, [:category_id])
   end
 end

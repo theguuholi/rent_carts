@@ -1,6 +1,7 @@
 defmodule RentCartsWeb.Router do
   use RentCartsWeb, :router
   alias RentCartsWeb.Middlewares.EnsureAuthenticated
+  alias RentCartsWeb.Middlewares.IsAdmin
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -9,6 +10,10 @@ defmodule RentCartsWeb.Router do
     plug :put_root_layout, {RentCartsWeb.LayoutView, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+  end
+
+  pipeline :is_admin do
+    plug(IsAdmin)
   end
 
   pipeline :auth do
@@ -23,6 +28,11 @@ defmodule RentCartsWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+  end
+
+  scope "/api", RentCartsWeb do
+    pipe_through [:api, :is_admin]
+    resources "/cars", CarController, except: [:new, :edit]
   end
 
   scope "/api", RentCartsWeb do

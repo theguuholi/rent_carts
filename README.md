@@ -1,11 +1,12 @@
 = Criar import de Categorias
+= usar money para carro
 ====
 # Cars
 
 ## DB Informations
 
 **cars**
-name description daily_rate:integer available:boolean license_plate fine_amount:integer brand category_id:references:categories
+name description daily_rate:integer available:boolean license_plate:unique fine_amount:integer brand category_id:references:categories
 
 **specifications_cars**
 id car_id:references:cars specification_id:references:specifications
@@ -20,8 +21,8 @@ id car_id:references:cars image
 ## Insert/Update a Car
 
 **FR**
-- [ ] Should insert a new Car
-- [ ] Should be possible list all categories
+- [x] Should insert a new Car
+- [x] Should be possible list all categories
 
 **NFR**
 
@@ -29,10 +30,10 @@ id car_id:references:cars image
 
 **ACs**
 
-- [ ] Should not be possible insert a new car with the same **license_plate**
+- [x]] Should not be possible insert a new car with the same **license_plate**
 - [ ] Should not be possible to update **license_plate** for a car that already exist
-- [ ] Should be inserted with **available** true 
-- [ ] Only Admin can insert/update a new car
+- [x] Should be inserted with **available** true 
+- [x] Only Admin can insert/update a new car
 
 ## List Cars
 
