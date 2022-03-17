@@ -2,6 +2,7 @@ defmodule RentCarts.Cars.Car do
   use Ecto.Schema
   import Ecto.Changeset
   alias RentCarts.Categories.Category
+  alias RentCarts.Specifications.Specification
 
   @fields ~w/available/a
   @required_fields ~w/name description daily_rate available license_plate fine_amount brand category_id/a
@@ -16,6 +17,7 @@ defmodule RentCarts.Cars.Car do
     field :license_plate, :string
     field :name, :string
     belongs_to :category, Category
+    many_to_many :specifications, Specification, join_through: RentCarts.Cars.SpecificationCar
 
     timestamps()
   end
@@ -25,6 +27,7 @@ defmodule RentCarts.Cars.Car do
     car
     |> cast(attrs, @fields ++ @required_fields)
     |> validate_required(@required_fields)
+    |> cast_assoc(:specifications, with: &Specification.changeset/2)
     |> unique_constraint(:license_plate)
     |> update_change(:license_plate, &String.upcase/1)
   end

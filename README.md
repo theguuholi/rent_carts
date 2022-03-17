@@ -31,7 +31,7 @@ id car_id:references:cars image
 
 **ACs**
 
-- [x]] Should not be possible insert a new car with the same **license_plate**
+- [x] Should not be possible insert a new car with the same **license_plate**
 - [ ] Should not be possible to update **license_plate** for a car that already exist
 - [x] Should be inserted with **available** true 
 - [x] Only Admin can insert/update a new car
@@ -39,10 +39,10 @@ id car_id:references:cars image
 ## List Cars
 
 **FR**
-- [ ] List all available cars
-- [ ] Should be possible filter cars by categories name
-- [ ] Should be possible filter cars by brand name
-- [ ] Should be possible filter cars by name
+- [x] List all available cars
+- [x] Should be possible filter cars by categories name
+- [x] Should be possible filter cars by brand name
+- [x] Should be possible filter cars by name
 
 **NFR**
 
@@ -50,15 +50,15 @@ id car_id:references:cars image
 
 **ACs**
 
-- [ ] User does not necessary signed in the system
+- [x] User does not necessary signed in the system
 
 
 ## Insert Car Especification
 
 **FR**
-- [ ] Should be possible insert an specification for a car
-- [ ] Should be possible possible list all specifications
-- [ ] Should be possible list all cars
+- [x] Should be possible insert an specification for a car
+- [x] Should be possible possible list all specifications
+- [x] Should be possible list all cars
 
 **NFR**
 

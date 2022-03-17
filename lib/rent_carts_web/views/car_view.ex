@@ -1,5 +1,6 @@
 defmodule RentCartsWeb.CarView do
   use RentCartsWeb, :view
+  alias RentCartsWeb.SpecificationView
 
   def render("index.json", %{cars: cars}) do
     %{data: render_many(cars, __MODULE__, "car.json")}
@@ -11,6 +12,7 @@ defmodule RentCartsWeb.CarView do
 
   def render("car.json", %{car: car}) do
     %{
+      specifications: SpecificationView.render("index.json", specifications: car.specifications),
       name: car.name,
       description: car.description,
       brand: car.brand,

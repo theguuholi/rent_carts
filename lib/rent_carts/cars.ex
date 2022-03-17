@@ -28,6 +28,7 @@ defmodule RentCarts.Cars do
         brand = "%" <> brand <> "%"
         where(query, [c], ilike(c.brand, ^brand))
     end)
+    |> preload(:specifications)
     |> Repo.all()
   end
 end
