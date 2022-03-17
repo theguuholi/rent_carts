@@ -13,9 +13,13 @@ defmodule RentCarts.Cars do
     query = where(Car, [c], c.available == true)
 
     Enum.reduce(filters, query, fn
-      # {:category, category}, query ->
-      #   category = "%" <> category <> "%"
-      #   where(query, [c], ilike(c.category, ^category))
+      {:category, category}, query ->
+        category = "%" <> category <> "%"
+
+        query
+        |> join(:inner, [c], ca in assoc(c, :category))
+        |> where([c, ca], ilike(ca.name, ^category))
+
       {:name, name}, query ->
         name = "%" <> name <> "%"
         where(query, [c], ilike(c.name, ^name))

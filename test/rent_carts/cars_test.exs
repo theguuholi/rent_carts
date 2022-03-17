@@ -53,6 +53,40 @@ defmodule RentCarts.CarsTest do
       assert Cars.list_cars() |> Enum.count() == 1
     end
 
+    test "list all available cars by name" do
+      category = category_fixture()
+
+      payload = %{
+        name: "Lancer",
+        description: "Good car and fast",
+        brand: "Mitsubishi",
+        daily_rate: 100,
+        license_plate: "Abcd_1232",
+        fine_amount: 30,
+        category_id: category.id
+      }
+
+      Cars.create_car(payload)
+
+      payload = %{
+        name: "Lancer",
+        description: "Good car and fast",
+        brand: "Mitsubishi",
+        daily_rate: 100,
+        license_plate: "Abcd_1232",
+        fine_amount: 30,
+        category_id: category.id,
+        available: false
+      }
+
+      Cars.create_car(payload)
+
+      assert Cars.list_cars([name: "Lan"]) |> Enum.count() == 1
+      assert Cars.list_cars([brand: "Mit"]) |> Enum.count() == 1
+      assert Cars.list_cars([category: category.name]) |> Enum.count() == 1
+      assert Cars.list_cars([category: category.name, brand: "Mit"]) |> Enum.count() == 1
+    end
+
     test "should not be able to create a car tha place already exist" do
       category = category_fixture()
 
