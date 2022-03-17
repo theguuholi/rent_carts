@@ -13,4 +13,14 @@ defmodule RentCartsWeb.CarController do
       |> render("show.json", car: car)
     end
   end
+
+  def index(conn, params) do
+    params =
+      params
+      |> Map.to_list()
+      |> Enum.map(fn {type, filter} -> {String.to_atom(type), filter} end)
+
+    cars = Cars.list_cars(params)
+    render(conn, "index.json", cars: cars)
+  end
 end

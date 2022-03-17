@@ -32,7 +32,7 @@ defmodule RentCartsWeb.Router do
 
   scope "/api", RentCartsWeb do
     pipe_through [:api, :is_admin]
-    resources "/cars", CarController, except: [:new, :edit]
+    post "/cars", CarController, :create
   end
 
   scope "/api", RentCartsWeb do
@@ -48,6 +48,7 @@ defmodule RentCartsWeb.Router do
     pipe_through :api
     post "/users", UserController, :create
     post "/sessions", SessionController, :create
+    get "/cars", CarController, :index
   end
 
   # coveralls-ignore-start

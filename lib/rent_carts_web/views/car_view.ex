@@ -1,6 +1,10 @@
 defmodule RentCartsWeb.CarView do
   use RentCartsWeb, :view
 
+  def render("index.json", %{cars: cars}) do
+    %{data: render_many(cars, __MODULE__, "car.json")}
+  end
+
   def render("show.json", %{car: car}) do
     %{data: render_one(car, __MODULE__, "car.json")}
   end

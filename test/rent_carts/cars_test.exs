@@ -81,10 +81,10 @@ defmodule RentCarts.CarsTest do
 
       Cars.create_car(payload)
 
-      assert Cars.list_cars([name: "Lan"]) |> Enum.count() == 1
-      assert Cars.list_cars([brand: "Mit"]) |> Enum.count() == 1
-      assert Cars.list_cars([category: category.name]) |> Enum.count() == 1
-      assert Cars.list_cars([category: category.name, brand: "Mit"]) |> Enum.count() == 1
+      assert Cars.list_cars(name: "Lan") |> Enum.count() == 1
+      assert Cars.list_cars(brand: "Mit") |> Enum.count() == 1
+      assert Cars.list_cars(category: category.name) |> Enum.count() == 1
+      assert Cars.list_cars(category: category.name, brand: "Mit") |> Enum.count() == 1
     end
 
     test "should not be able to create a car tha place already exist" do
