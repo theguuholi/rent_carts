@@ -4,10 +4,11 @@ defmodule RentCartsWeb.Middlewares.IsAdmin do
 
   def init(o), do: o
 
+  @spec call(Plug.Conn.t(), any) :: Plug.Conn.t()
   def call(conn, _opts) do
     with ["Bearer " <> token] <- get_req_header(conn, "authorization"),
          {:ok, user} <- Tokenr.verify_auth_token(token),
-         true <- user.role == "ADMIN" do
+         true <- user.role == :ADMIN do
       put_req_header(conn, "user_id", user.id)
     else
       _ ->

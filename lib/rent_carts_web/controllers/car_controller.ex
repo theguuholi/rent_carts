@@ -1,8 +1,8 @@
 defmodule RentCartsWeb.CarController do
   use RentCartsWeb, :controller
 
-  alias RentCarts.Cars.Car
   alias RentCarts.Cars
+  alias RentCarts.Cars.Car
 
   action_fallback RentCartsWeb.FallbackController
 

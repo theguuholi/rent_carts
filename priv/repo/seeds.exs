@@ -1,11 +1,20 @@
-# Script for populating the database. You can run it as:
-#
-#     mix run priv/repo/seeds.exs
-#
-# Inside the script, you can read and write to any of your
-# repositories directly:
-#
-#     RentCarts.Repo.insert!(%RentCarts.SomeSchema{})
-#
-# We recommend using the bang functions (`insert!`, `update!`
-# and so on) as they will fail if something goes wrong.
+%{
+  "name" => "Gustavo",
+  "drive_license" => "db123333",
+  "email" => "adm@elxpro.com",
+  "password" => "Abc@13212222",
+  "password_confirmation" => "Abc@13212222",
+  "user_name" => "adm",
+  "role" => "ADMIN"
+}
+|> RentCarts.Accounts.create_user()
+
+%{
+  "name" => "Gustavo",
+  "drive_license" => "db4444",
+  "email" => "user@elxpro.com",
+  "password" => "Abc@13212222",
+  "password_confirmation" => "Abc@13212222",
+  "user_name" => "USER"
+}
+|> RentCarts.Accounts.create_user()
