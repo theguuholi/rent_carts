@@ -7,7 +7,6 @@ defmodule RentCarts.Cars.SpecificationCar do
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
   schema "specifications_cars" do
-
     belongs_to :car, Car
     belongs_to :specification, Specification
 

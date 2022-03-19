@@ -3,6 +3,7 @@ defmodule RentCarts.Cars.Car do
   import Ecto.Changeset
   alias RentCarts.Categories.Category
   alias RentCarts.Specifications.Specification
+  alias RentCarts.Cars.CarImage
 
   @fields ~w/available/a
   @required_fields ~w/name description daily_rate available license_plate fine_amount brand category_id/a
@@ -18,7 +19,7 @@ defmodule RentCarts.Cars.Car do
     field :name, :string
     belongs_to :category, Category
     many_to_many :specifications, Specification, join_through: RentCarts.Cars.SpecificationCar
-
+    has_many :cars_images, CarImage
     timestamps()
   end
 
