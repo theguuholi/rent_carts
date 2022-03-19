@@ -2,7 +2,7 @@ defmodule RentCartsWeb.FallbackControllerTest do
   use RentCartsWeb.ConnCase
 
   describe "index" do
-    setup :include_bearer_admin_token
+    setup :include_normal_token_user
 
     test "fallback error message", %{conn: conn} do
       conn =

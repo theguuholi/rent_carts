@@ -40,8 +40,16 @@ defmodule RentCartsWeb.ConnCase do
     {:ok, conn: Phoenix.ConnTest.build_conn()}
   end
 
-  def include_bearer_admin_token(%{conn: conn}) do
+  def include_normal_token_user(%{conn: conn}) do
     user = AccountsFixtures.user_fixture()
+    {:ok, _, token} = Sessions.create(user.email, user.password)
+
+    conn = Plug.Conn.put_req_header(conn, "authorization", "Bearer " <> token)
+    {:ok, conn: conn, user: user, token: token}
+  end
+
+  def include_admin_token(%{conn: conn}) do
+    user = AccountsFixtures.user_admin_fixture()
     {:ok, _, token} = Sessions.create(user.email, user.password)
 
     conn = Plug.Conn.put_req_header(conn, "authorization", "Bearer " <> token)

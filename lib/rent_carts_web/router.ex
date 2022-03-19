@@ -33,6 +33,7 @@ defmodule RentCartsWeb.Router do
   scope "/api", RentCartsWeb do
     pipe_through [:api, :is_admin]
     post "/cars", CarController, :create
+    put "/cars/:id", CarController, :update
   end
 
   scope "/api", RentCartsWeb do

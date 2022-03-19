@@ -31,4 +31,16 @@ defmodule RentCarts.Cars.Car do
     |> unique_constraint(:license_plate)
     |> update_change(:license_plate, &String.upcase/1)
   end
+
+  def update_changeset(car, attrs) do
+    car
+    |> changeset(attrs)
+    |> validate_change(:license_plate, fn :license_plate, license_plate ->
+      if car.license_plate != license_plate do
+        [license_plate: "you can`t update license_plate"]
+      else
+        []
+      end
+    end)
+  end
 end

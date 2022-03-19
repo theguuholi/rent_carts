@@ -2,7 +2,7 @@ defmodule RentCartsWeb.SessionControllerTest do
   use RentCartsWeb.ConnCase
 
   describe "index" do
-    setup :include_bearer_admin_token
+    setup :include_normal_token_user
 
     test "create token", %{conn: conn, user: user} do
       conn =

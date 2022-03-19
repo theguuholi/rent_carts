@@ -35,7 +35,7 @@ defmodule RentCartsWeb.AccountControllerTest do
   end
 
   describe "index" do
-    setup :include_bearer_admin_token
+    setup :include_normal_token_user
 
     test "lists all users", %{conn: conn} do
       conn = get(conn, Routes.user_path(conn, :index))
@@ -44,7 +44,7 @@ defmodule RentCartsWeb.AccountControllerTest do
   end
 
   describe "create user" do
-    setup :include_bearer_admin_token
+    setup :include_normal_token_user
 
     test "renders user when data is valid", %{conn: conn} do
       conn = post(conn, Routes.user_path(conn, :create), user: @create_attrs)
@@ -62,7 +62,7 @@ defmodule RentCartsWeb.AccountControllerTest do
   end
 
   describe "update user" do
-    setup [:create_user, :include_bearer_admin_token]
+    setup [:create_user, :include_normal_token_user]
 
     test "renders user when data is valid update", %{conn: conn} do
       photo = %Plug.Upload{
@@ -101,7 +101,7 @@ defmodule RentCartsWeb.AccountControllerTest do
   end
 
   describe "delete user" do
-    setup [:create_user, :include_bearer_admin_token]
+    setup [:create_user, :include_normal_token_user]
 
     test "deletes chosen user", %{conn: conn, user: user} do
       conn = delete(conn, Routes.user_path(conn, :delete, user))

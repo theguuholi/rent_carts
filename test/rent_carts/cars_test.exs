@@ -5,6 +5,36 @@ defmodule RentCarts.CarsTest do
   import RentCarts.CategoriesFixtures
 
   describe "create cars" do
+    test "should not be possible to update license_plate for a car that already exist" do
+      category = category_fixture()
+
+      payload = %{
+        name: "Lancer",
+        description: "Good car and fast",
+        brand: "Mitsubishi",
+        daily_rate: 100,
+        license_plate: "Abcd_1232",
+        fine_amount: 30,
+        category_id: category.id
+      }
+
+      {:ok, car} = Cars.create_car(payload)
+      assert payload.name == car.name
+
+      payload = %{
+        name: "Lancer",
+        description: "Good car and fast",
+        brand: "Mitsubishi",
+        daily_rate: 100,
+        license_plate: "dddddd",
+        fine_amount: 30,
+        category_id: category.id
+      }
+
+      {:error, changeset} = Cars.update_car(car.id, payload)
+      assert "you can`t update license_plate" in errors_on(changeset).license_plate
+    end
+
     test "should be able to create a car" do
       category = category_fixture()
 

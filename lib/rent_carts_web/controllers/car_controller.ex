@@ -14,6 +14,12 @@ defmodule RentCartsWeb.CarController do
     end
   end
 
+  def update(conn, %{"id" => id, "car" => car_params}) do
+    with {:ok, %Car{} = car} <- Cars.update_car(id, car_params) do
+      render(conn, "show.json", car: car)
+    end
+  end
+
   def index(conn, params) do
     params =
       params

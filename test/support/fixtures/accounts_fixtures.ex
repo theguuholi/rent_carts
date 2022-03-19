@@ -37,4 +37,21 @@ defmodule RentCarts.AccountsFixtures do
 
     user
   end
+
+  def user_admin_fixture(attrs \\ %{}) do
+    {:ok, user} =
+      attrs
+      |> Enum.into(%{
+        drive_license: unique_user_drive_license(),
+        email: unique_user_email(),
+        name: "some name",
+        password: "some password_hash",
+        password_confirmation: "some password_hash",
+        user_name: unique_user_user_name(),
+        role: "ADMIN"
+      })
+      |> RentCarts.Accounts.create_user()
+
+    user
+  end
 end

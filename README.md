@@ -1,6 +1,6 @@
 = Criar import de Categorias
 = usar money para carro
-- criar update de carros e nao permitir atualizar a placa
+- criacao de carros com categorias que ja existem
 ====
 # Cars
 
@@ -32,7 +32,7 @@ id car_id:references:cars image
 **ACs**
 
 - [x] Should not be possible insert a new car with the same **license_plate**
-- [ ] Should not be possible to update **license_plate** for a car that already exist
+- [x] Should not be possible to update **license_plate** for a car that already exist
 - [x] Should be inserted with **available** true 
 - [x] Only Admin can insert/update a new car
 

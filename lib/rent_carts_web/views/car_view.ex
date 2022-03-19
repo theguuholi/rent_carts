@@ -11,8 +11,12 @@ defmodule RentCartsWeb.CarView do
   end
 
   def render("car.json", %{car: car}) do
+    specifications =
+      (Ecto.assoc_loaded?(car.specifications) &&
+         SpecificationView.render("index.json", %{specifications: car.specifications})) || nil
+
     %{
-      specifications: SpecificationView.render("index.json", specifications: car.specifications),
+      specifications: specifications,
       name: car.name,
       description: car.description,
       brand: car.brand,

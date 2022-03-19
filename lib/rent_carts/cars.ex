@@ -31,4 +31,13 @@ defmodule RentCarts.Cars do
     |> preload(:specifications)
     |> Repo.all()
   end
+
+  def get_car!(id), do: Repo.get!(Car, id)
+
+  def update_car(car_id, payload) do
+    car_id
+    |> get_car!()
+    |> Car.update_changeset(payload)
+    |> Repo.update()
+  end
 end
