@@ -13,8 +13,7 @@ defmodule RentCarts.Cars.CarPhoto do
     end
   end
 
-  def storage_dir(_, {_file, car}) do
-    IO.inspect car
-    "/uploads/cars"
+  def storage_dir(_, {_file, car_image}) do
+    "/uploads/cars/#{car_image.car_id}"
   end
 end
