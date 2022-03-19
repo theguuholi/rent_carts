@@ -63,7 +63,8 @@ defmodule RentCarts.MixProject do
       {:dialyxir, "~> 0.5.0", only: [:dev, :test], runtime: false},
       {:mix_test_watch, "~> 1.0", only: [:dev, :test], runtime: false},
       {:waffle, "~> 1.1.0"},
-      {:waffle_ecto, "~> 0.0.9"}
+      {:waffle_ecto, "~> 0.0.9"},
+      {:money, "~> 1.9"}
     ]
   end
 
