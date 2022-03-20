@@ -24,6 +24,13 @@ defmodule RentCarts.Cars do
     |> Repo.update()
   end
 
+  def is_car_avilable?(car_id) do
+    Car
+    |> where([c], c.id == ^car_id)
+    |> select([c], {c.available, c.id})
+    |> Repo.one()
+  end
+
   def list_cars(filters \\ []) when is_list(filters) do
     query = where(Car, [c], c.available == true)
 

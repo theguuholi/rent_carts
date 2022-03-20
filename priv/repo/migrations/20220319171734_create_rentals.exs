@@ -8,8 +8,12 @@ defmodule RentCarts.Repo.Migrations.CreateRentals do
       add :end_date, :naive_datetime
       add :expected_return_date, :naive_datetime
       add :total, :integer
-      add :car_id, references(:cars, on_delete: :delete_all, on_update: :update_all, type: :binary_id)
-      add :user_id, references(:users, on_delete: :delete_all, on_update: :update_all, type: :binary_id)
+
+      add :car_id,
+          references(:cars, on_delete: :delete_all, on_update: :update_all, type: :binary_id)
+
+      add :user_id,
+          references(:users, on_delete: :delete_all, on_update: :update_all, type: :binary_id)
 
       timestamps()
     end
