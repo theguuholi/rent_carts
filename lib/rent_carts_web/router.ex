@@ -35,14 +35,15 @@ defmodule RentCartsWeb.Router do
     post "/cars", CarController, :create
     put "/cars/:id", CarController, :update
     patch "/cars/images/:id", CarController, :create_image
+    resources "/categories", CategoryController, except: [:new, :edit]
+    resources "/specifications", SpecificationController, except: [:new, :edit]
   end
 
   scope "/api", RentCartsWeb do
     pipe_through [:api, :auth]
     post "/sessions/me", SessionController, :me
-    resources "/categories", CategoryController, except: [:new, :edit]
-    resources "/specifications", SpecificationController, except: [:new, :edit]
     patch "/users/photo", UserController, :update_foto
+    post "/rentals", RentalController, :create
     resources "/users", UserController, except: [:new, :edit, :create]
   end
 

@@ -118,3 +118,22 @@ id car_id:references:cars image
 - [ ] To book a car must be at least 24 hours
 - [ ] Should not be possibleto book a car is already exist to the same car
   
+
+
+## Return Cars
+
+**FR**
+- [ ] Should be possible return car
+
+**NFR**
+
+- NTD - 
+
+**ACs**
+
+- [ ] if car returns before 24 hours user should pay fully daily
+- [ ] When return car,  should make the car available to book
+- [ ] When return, user shuold be allowed to book another car
+- [ ] when return should calculate total book
+- [ ] if car return after the expected return date, should pay fees for late dates
+- [ ] if has fees should be sum in total book
