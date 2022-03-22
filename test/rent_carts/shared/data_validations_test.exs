@@ -6,13 +6,14 @@ defmodule RentCarts.Shared.DateValidationsTest do
     end_date =
       NaiveDateTime.utc_now() |> then(&%{&1 | hour: &1.hour + 5}) |> NaiveDateTime.to_string()
 
-    assert false == DateValidations.is_more_than_24_hours?(end_date)
+    assert {:error, :message, "Invalid return date"} ==
+             DateValidations.is_more_than_24_hours?(end_date)
   end
 
   test "should data is more than 24 hours" do
     end_date =
       NaiveDateTime.utc_now() |> then(&%{&1 | day: &1.day + 4}) |> NaiveDateTime.to_string()
 
-    assert true == DateValidations.is_more_than_24_hours?(end_date)
+    assert :ok == DateValidations.is_more_than_24_hours?(end_date)
   end
 end

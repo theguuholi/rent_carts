@@ -6,6 +6,6 @@ defmodule RentCarts.Shared.DateValidations do
     |> return_message()
   end
 
-  def return_message(value) when value > 0,  do: :ok
+  def return_message(value) when value > 0, do: :ok
   def return_message(_value), do: {:error, :message, "Invalid return date"}
 end

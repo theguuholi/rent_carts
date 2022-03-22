@@ -1,9 +1,9 @@
-defmodule RentCarts.RentalsTest do
+defmodule RentCarts.Rentals.Core.CreateRentalTest do
   use RentCarts.DataCase
 
-  alias RentCarts.Rentals
   import RentCarts.CategoriesFixtures
   import RentCarts.AccountsFixtures
+  alias RentCarts.Rentals.Core.CreateRental
   alias RentCarts.Cars
 
   describe "create rentals" do
@@ -27,7 +27,7 @@ defmodule RentCarts.RentalsTest do
         NaiveDateTime.utc_now() |> then(&%{&1 | day: &1.day + 5}) |> NaiveDateTime.to_string()
 
       {:ok, car} = Cars.create_car(payload)
-      {:error, :message, message} = Rentals.create_rentals(car.id, user.id, expected_return_date)
+      {:error, :message, message} = CreateRental.execute(car.id, user.id, expected_return_date)
       assert message == "Car is unavailable"
     end
 
@@ -53,8 +53,8 @@ defmodule RentCarts.RentalsTest do
         |> NaiveDateTime.to_string()
 
       {:ok, car} = Cars.create_car(payload)
-      Rentals.create_rentals(car.id, user.id, expected_return_date)
-      {:error, :message, message} = Rentals.create_rentals(car.id, user.id, expected_return_date)
+      CreateRental.execute(car.id, user.id, expected_return_date)
+      {:error, :message, message} = CreateRental.execute(car.id, user.id, expected_return_date)
       assert message == "User has a reservation"
     end
 
@@ -62,7 +62,7 @@ defmodule RentCarts.RentalsTest do
       expected_return_date =
         NaiveDateTime.utc_now() |> then(&%{&1 | hour: &1.hour + 5}) |> NaiveDateTime.to_string()
 
-      {:error, :message, rental} = Rentals.create_rentals("fsdfsd", "Dfdsf", expected_return_date)
+      {:error, :message, rental} = CreateRental.execute("fsdfsd", "Dfdsf", expected_return_date)
       assert rental == "Invalid return date"
     end
 
@@ -88,7 +88,7 @@ defmodule RentCarts.RentalsTest do
         |> NaiveDateTime.to_string()
 
       {:ok, car} = Cars.create_car(payload)
-      {:ok, rental} = Rentals.create_rentals(car.id, user.id, expected_return_date)
+      {:ok, rental} = CreateRental.execute(car.id, user.id, expected_return_date)
       assert rental.end_date == nil
       assert rental.car_id == car.id
       assert rental.user_id == user.id
