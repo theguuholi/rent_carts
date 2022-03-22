@@ -1,5 +1,6 @@
 defmodule RentCarts.Rentals.Core.CreateRental do
   alias RentCarts.Cars
+  alias RentCarts.Cars.Car
   alias RentCarts.Repo
   alias RentCarts.Rentals.Data.Rental
   alias RentCarts.Accounts.User
@@ -8,9 +9,9 @@ defmodule RentCarts.Rentals.Core.CreateRental do
 
   def execute(car_id, user_id, expected_return_date) do
     with :ok <- DateValidations.is_more_than_24_hours?(expected_return_date),
-         :ok <- is_car_avilable?(car_id),
+         %Car{} = car <- is_car_avilable?(car_id),
          :ok <- is_user_booked_car?(user_id) do
-      store_rental({car_id, user_id}, expected_return_date)
+      store_rental({car, user_id}, expected_return_date)
     else
       error -> error
     end
@@ -22,8 +23,8 @@ defmodule RentCarts.Rentals.Core.CreateRental do
     |> return_car_available()
   end
 
-  defp return_car_available({true, _car_id}), do: :ok
-  defp return_car_available({false, _}), do: {:error, :message, "Car is unavailable"}
+  defp return_car_available(%{available: true} = car), do: car
+  defp return_car_available(%{available: false}), do: {:error, :message, "Car is unavailable"}
 
   defp is_user_booked_car?(user_id) do
     User
@@ -41,16 +42,17 @@ defmodule RentCarts.Rentals.Core.CreateRental do
     end)
   end
 
-  defp store_rental({car_id, user_id}, expected_return_date) do
+  defp store_rental({car, user_id}, expected_return_date) do
     payload = %{
-      car_id: car_id,
+      car_id: car.id,
       user_id: user_id,
       start_date: NaiveDateTime.utc_now(),
       expected_return_date: expected_return_date
     }
 
-    %Rental{}
-    |> Rental.changeset(payload)
-    |> Repo.insert()
+    Ecto.Multi.new()
+    |> Ecto.Multi.update(:set_car_unavailable, Car.changeset(car, %{available: false}))
+    |> Ecto.Multi.insert(:insert_rental, Rental.changeset(%Rental{}, payload))
+    |> Repo.transaction()
   end
 end

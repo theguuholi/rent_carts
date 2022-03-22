@@ -88,7 +88,11 @@ defmodule RentCarts.Rentals.Core.CreateRentalTest do
         |> NaiveDateTime.to_string()
 
       {:ok, car} = Cars.create_car(payload)
-      {:ok, rental} = CreateRental.execute(car.id, user.id, expected_return_date)
+
+      {:ok, %{insert_rental: rental}} =
+        CreateRental.execute(car.id, user.id, expected_return_date)
+
+      assert false == Cars.get_car!(car.id).available
       assert rental.end_date == nil
       assert rental.car_id == car.id
       assert rental.user_id == user.id

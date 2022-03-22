@@ -27,7 +27,6 @@ defmodule RentCarts.Cars do
   def is_car_avilable?(car_id) do
     Car
     |> where([c], c.id == ^car_id)
-    |> select([c], {c.available, c.id})
     |> Repo.one()
   end
 
