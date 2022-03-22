@@ -2,17 +2,27 @@ defmodule RentCarts.Rentals.Core.CreateRental do
   alias RentCarts.Cars
   alias RentCarts.Repo
   alias RentCarts.Rentals.Data.Rental
+  alias RentCarts.Shared.DateValidations
 
   def execute(car_id, user_id, expected_return_date) do
-    store_rental({car_id, user_id}, expected_return_date)
-    # |> Cars.is_car_avilable?()
+    with :ok <- DateValidations.is_more_than_24_hours?(expected_return_date),
+         :ok <- is_car_avilable?(car_id) do
+      store_rental({car_id, user_id}, expected_return_date)
+    else
+      error -> error
+    end
+
     # # check with rental == nil
-    # |> return_car_available()
     # |> check_is_user_has_a_rental(user_id)
-    # |> store_rental(expected_return_date)
   end
 
-  defp return_car_available({true, car_id}), do: car_id
+  def is_car_avilable?(car_id) do
+    car_id
+    |> Cars.is_car_avilable?()
+    |> return_car_available()
+  end
+
+  defp return_car_available({true, _car_id}), do: :ok
   defp return_car_available({false, _}), do: {:error, :message, "Car is unavailable"}
 
   defp check_is_user_has_a_rental({:error, _, _} = err, _user_id), do: err
@@ -22,8 +32,6 @@ defmodule RentCarts.Rentals.Core.CreateRental do
     # {:error, :message, "User has a a car reservade"}
     {car_id, user_id}
   end
-
-  defp store_rental({:error, _, _} = err, _), do: err
 
   defp store_rental({car_id, user_id}, expected_return_date) do
     payload = %{
@@ -36,6 +44,5 @@ defmodule RentCarts.Rentals.Core.CreateRental do
     %Rental{}
     |> Rental.changeset(payload)
     |> Repo.insert()
-    |> IO.inspect()
   end
 end

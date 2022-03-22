@@ -3,6 +3,9 @@ defmodule RentCarts.Shared.DateValidations do
     end_date
     |> NaiveDateTime.from_iso8601!()
     |> Timex.diff(NaiveDateTime.utc_now(), :days)
-    |> then(&(&1 > 0))
+    |> return_message()
   end
+
+  def return_message(value) when value > 0,  do: :ok
+  def return_message(_value), do: {:error, :message, "Invalid return date"}
 end
