@@ -19,6 +19,7 @@ defmodule RentCarts.Accounts.User do
     field :password_hash, :string
     field :user_name, :string
     field :role, Ecto.Enum, values: @role_values, default: :USER
+    has_many :rentals, RentCarts.Rentals.Data.Rental
     timestamps()
   end
 
