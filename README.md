@@ -1,6 +1,5 @@
 = Criar import de Categorias
-= usar money para carro
-- criacao de carros com categorias que ja existem
+- criacao de carros com especificatoes que ja existem
 ====
 # Cars
 

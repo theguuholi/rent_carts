@@ -1,10 +1,9 @@
 defmodule RentCartsWeb.RentalView do
   use RentCartsWeb, :view
-  alias RentCartsWeb.SpecificationView
-  alias RentCarts.Cars
+  alias RentCartsWeb.CarView
 
   def render("index.json", %{rentals: rentals}) do
-    %{data: render_many(rentals, __MODULE__, "car.json")}
+    %{data: render_many(rentals, __MODULE__, "rental.json")}
   end
 
   def render("show.json", %{rental: rental}) do
@@ -12,8 +11,12 @@ defmodule RentCartsWeb.RentalView do
   end
 
   def render("rental.json", %{rental: rental}) do
+    car =
+      (Ecto.assoc_loaded?(rental.car) &&
+         CarView.render("show.json", %{car: rental.car})) || nil
+
     %{
-      car_id: rental.car_id,
+      car: car,
       end_date: rental.end_date,
       expected_return_date: rental.expected_return_date,
       id: rental.id,

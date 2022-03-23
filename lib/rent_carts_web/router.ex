@@ -44,6 +44,8 @@ defmodule RentCartsWeb.Router do
     post "/sessions/me", SessionController, :me
     patch "/users/photo", UserController, :update_foto
     post "/rentals", RentalController, :create
+    post "/rentals/return/:id", RentalController, :return
+    get "/rentals", RentalController, :index
     resources "/users", UserController, except: [:new, :edit, :create]
   end
 
