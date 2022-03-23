@@ -20,7 +20,7 @@ defmodule RentCartsWeb.CategoryControllerTest do
   end
 
   describe "index" do
-    setup :include_normal_token_user
+    setup :include_admin_token
 
     test "lists all categories", %{conn: conn} do
       conn = get(conn, Routes.category_path(conn, :index))
@@ -29,7 +29,7 @@ defmodule RentCartsWeb.CategoryControllerTest do
   end
 
   describe "create category" do
-    setup :include_normal_token_user
+    setup :include_admin_token
 
     test "renders category when data is valid", %{conn: conn} do
       conn = post(conn, Routes.category_path(conn, :create), category: @create_attrs)
@@ -51,7 +51,7 @@ defmodule RentCartsWeb.CategoryControllerTest do
   end
 
   describe "update category" do
-    setup [:create_category, :include_normal_token_user]
+    setup [:create_category, :include_admin_token]
 
     test "renders category when data is valid", %{
       conn: conn,
@@ -76,7 +76,7 @@ defmodule RentCartsWeb.CategoryControllerTest do
   end
 
   describe "delete category" do
-    setup [:create_category, :include_normal_token_user]
+    setup [:create_category, :include_admin_token]
 
     test "deletes chosen category", %{conn: conn, category: category} do
       conn = delete(conn, Routes.category_path(conn, :delete, category))

@@ -20,7 +20,7 @@ defmodule RentCartsWeb.SpecificationControllerTest do
   end
 
   describe "index" do
-    setup :include_normal_token_user
+    setup :include_admin_token
 
     test "lists all specifications", %{conn: conn} do
       conn = get(conn, Routes.specification_path(conn, :index))
@@ -29,7 +29,7 @@ defmodule RentCartsWeb.SpecificationControllerTest do
   end
 
   describe "create specification" do
-    setup :include_normal_token_user
+    setup :include_admin_token
 
     test "renders specification when data is valid", %{conn: conn} do
       conn = post(conn, Routes.specification_path(conn, :create), specification: @create_attrs)
@@ -51,7 +51,7 @@ defmodule RentCartsWeb.SpecificationControllerTest do
   end
 
   describe "update specification" do
-    setup [:create_specification, :include_normal_token_user]
+    setup [:create_specification, :include_admin_token]
 
     test "renders specification when data is valid", %{
       conn: conn,
@@ -84,7 +84,7 @@ defmodule RentCartsWeb.SpecificationControllerTest do
   end
 
   describe "delete specification" do
-    setup [:create_specification, :include_normal_token_user]
+    setup [:create_specification, :include_admin_token]
 
     test "deletes chosen specification", %{conn: conn, specification: specification} do
       conn = delete(conn, Routes.specification_path(conn, :delete, specification))

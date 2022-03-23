@@ -52,9 +52,21 @@ defmodule RentCarts.Rentals.Core.CreateRentalTest do
         |> then(&%{&1 | day: &1.day + 5})
         |> NaiveDateTime.to_string()
 
+        payload_2 = %{
+          name: "Lancedfdfr",
+          description: "Good car and fast",
+          brand: "Mitsubishi",
+          daily_rate: 100,
+          license_plate: "Abcddfdfd_1232",
+          fine_amount: 30,
+          category_id: category.id,
+          available: true
+        }
+
       {:ok, car} = Cars.create_car(payload)
+      {:ok, car_1} = Cars.create_car(payload_2)
       CreateRental.execute(car.id, user.id, expected_return_date)
-      {:error, :message, message} = CreateRental.execute(car.id, user.id, expected_return_date)
+      {:error, :message, message} = CreateRental.execute(car_1.id, user.id, expected_return_date)
       assert message == "User has a reservation"
     end
 

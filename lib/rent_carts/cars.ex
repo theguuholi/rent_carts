@@ -54,7 +54,8 @@ defmodule RentCarts.Cars do
   end
 
   def get_images(car) do
-    Enum.map(car.cars_images, &CarPhoto.url({&1.image, &1}))
+    (Ecto.assoc_loaded?(car.cars_images) &&
+       Enum.map(car.cars_images, &CarPhoto.url({&1.image, &1}))) || nil
   end
 
   def get_car!(id), do: Repo.get!(Car, id)

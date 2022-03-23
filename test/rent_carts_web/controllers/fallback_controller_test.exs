@@ -2,7 +2,7 @@ defmodule RentCartsWeb.FallbackControllerTest do
   use RentCartsWeb.ConnCase
 
   describe "index" do
-    setup :include_normal_token_user
+    setup :include_admin_token
 
     test "fallback error message", %{conn: conn} do
       conn =
@@ -19,7 +19,7 @@ defmodule RentCartsWeb.FallbackControllerTest do
           "Bearer " <> "sfsldjkljksdfkljsdfjklljksdfkjlsdfkljfds"
         )
 
-      conn = post(conn, Routes.category_path(conn, :index))
+      conn = post(conn, Routes.session_path(conn, :me), token: "fsdfdssdfdsfsd")
 
       assert json_response(conn, 401)["error"] == "unauthenticated"
     end
