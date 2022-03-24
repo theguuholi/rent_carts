@@ -53,6 +53,7 @@ defmodule RentCartsWeb.Router do
     pipe_through :api
     post "/users", UserController, :create
     post "/sessions", SessionController, :create
+    post "/sessions/forgot_password", SessionController, :reset_password
     get "/cars", CarController, :index
   end
 

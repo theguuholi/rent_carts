@@ -14,7 +14,7 @@ defmodule RentCartsWeb.Middlewares.IsAdmin do
       _ ->
         conn
         |> put_resp_content_type("application/json")
-        |> send_resp(401, Jason.encode!(%{error: "User does not have this permission"}))
+        |> send_resp(401, Jason.encode!(%{error: "User does not have this permission/Invalid Token"}))
         |> halt()
     end
   end

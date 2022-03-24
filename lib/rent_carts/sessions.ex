@@ -3,6 +3,7 @@ defmodule RentCarts.Sessions do
   alias RentCarts.Accounts.User
   alias RentCarts.Repo
   alias RentCarts.Shared.Tokenr
+  alias RentCarts.Accounts.Core.SendForgotPasswordToEmail
 
   @error_return {:error, :message, "Email or password is incorrect!"}
 
@@ -28,4 +29,6 @@ defmodule RentCarts.Sessions do
   end
 
   def me(token), do: Tokenr.verify_auth_token(token)
+
+  defdelegate forgot_password(email), to: SendForgotPasswordToEmail, as: :execute
 end

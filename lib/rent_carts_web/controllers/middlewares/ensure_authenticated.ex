@@ -12,7 +12,7 @@ defmodule RentCartsWeb.Middlewares.EnsureAuthenticated do
       _ ->
         conn
         |> put_resp_content_type("application/json")
-        |> send_resp(401, Jason.encode!(%{error: "unauthenticated"}))
+        |> send_resp(401, Jason.encode!(%{error: "Unauthenticated/Invalid Token"}))
         |> halt()
     end
   end
