@@ -34,4 +34,14 @@ defmodule RentCartsWeb.SessionController do
       |> text("")
     end
   end
+
+  def reset(conn, params) do
+    with {:ok, user} <- Sessions.password_reset(params) do
+      session = %{user: user, token: ""}
+      conn
+      |> put_status(:created)
+      |> put_resp_header("content-type", "application/json")
+      |> render("show.json", session: session)
+    end
+  end
 end

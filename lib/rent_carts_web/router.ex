@@ -54,6 +54,7 @@ defmodule RentCartsWeb.Router do
     post "/users", UserController, :create
     post "/sessions", SessionController, :create
     post "/sessions/forgot_password", SessionController, :reset_password
+    post "/sessions/reset_password", SessionController, :reset
     get "/cars", CarController, :index
   end
 
